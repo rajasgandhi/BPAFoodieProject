@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="FeedPost">
+        <attr name="postTitleText" format="string"/>
+        <attr name="postBodyText" format="string" />
+    </declare-styleable>
+</resources>
