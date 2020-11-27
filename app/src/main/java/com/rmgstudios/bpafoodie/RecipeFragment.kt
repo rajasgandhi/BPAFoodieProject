@@ -47,7 +47,7 @@ class RecipeFragment : Fragment() {
                 val client = OkHttpClient()
 
                 val request = Request.Builder()
-                    .url("https://api.spoonacular.com/recipes/complexSearch?apiKey=62a8233ca22748d0be6734fbcc86e8e9&diet=vegetarian&includeIngredients=" + ingredientInput.text)
+                    .url("https://api.spoonacular.com/recipes/complexSearch?apiKey=" + getString(R.string.spoonacularApiKey) + "&diet=vegetarian&includeIngredients=" + ingredientInput.text)
                     .get()
                     .build()
 

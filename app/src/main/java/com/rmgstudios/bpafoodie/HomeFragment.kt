@@ -43,7 +43,7 @@ class HomeFragment : Fragment() {
 
         mSwipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout)
 
-        feedListView.adapter = FeedPostsAdapter(feedList)
+        feedListView.adapter = FeedPostsAdapter(activity!!, feedList)
         feedListView.layoutManager = LinearLayoutManager(activity!!)
 
         retrieveFeed()
@@ -61,7 +61,7 @@ class HomeFragment : Fragment() {
             val body = json.toRequestBody("application/json".toMediaTypeOrNull())
 
             val request = Request.Builder()
-                .url("http://10.0.2.2:3000/sendpost")
+                .url(getString(R.string.url_send_post))
                 .post(body)
                 .build()
 
@@ -101,7 +101,7 @@ class HomeFragment : Fragment() {
         val client = OkHttpClient()
 
         val request = Request.Builder()
-            .url("http://10.0.2.2:3000/getposts")
+            .url(getString(R.string.url_get_posts))
             .get()
             .build()
 
@@ -120,7 +120,7 @@ class HomeFragment : Fragment() {
                     val resultLength = jsonArray.length()
 
                     val listAdapter =
-                        FeedPostsAdapter(feedList)
+                        FeedPostsAdapter(activity!!, feedList)
 
                     feedList.clear()
 
