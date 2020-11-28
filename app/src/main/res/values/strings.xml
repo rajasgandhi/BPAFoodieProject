@@ -8,4 +8,5 @@
     <string name="feed">Feed</string>
     <string name="url_get_posts">http://192.168.1.18:3000/getposts</string>
     <string name="url_send_post">http://192.168.1.18:3000/sendpost</string>
+    <string name="create_a_post">Create a post</string>
 </resources>
