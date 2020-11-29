@@ -26,22 +26,18 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> {
-                    //Log.d("TAG", "hoem clicked")
                     fm.beginTransaction().hide(active).show(fragment1).commit()
                     active = fragment1
                 }
                 R.id.nav_recipes -> {
-                    //Log.d("TAG", "searcg clicked")
                     fm.beginTransaction().hide(active).show(fragment2).commit()
                     active = fragment2
                 }
                 R.id.nav_water_reminder -> {
-                    //Log.d("TAG", "settings clicked")
                     fm.beginTransaction().hide(active).show(fragment3).commit()
                     active = fragment3
                 }
                 R.id.nav_about -> {
-                    //Log.d("TAG", "about clicked")
                     fm.beginTransaction().hide(active).show(fragment4).commit()
                     active = fragment4
                 }
