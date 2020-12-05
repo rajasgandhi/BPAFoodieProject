@@ -1,4 +1,4 @@
-package com.rmgstudios.bpafoodie
+package com.rmgstudios.hapori
 
 import android.content.Context
 import android.util.AttributeSet

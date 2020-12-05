@@ -1,4 +1,4 @@
-package com.rmgstudios.bpafoodie
+package com.rmgstudios.hapori
 
 import android.app.NotificationChannel
 import android.app.NotificationManager

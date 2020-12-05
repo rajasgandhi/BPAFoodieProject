@@ -1,4 +1,4 @@
-package com.rmgstudios.bpafoodie
+package com.rmgstudios.hapori
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

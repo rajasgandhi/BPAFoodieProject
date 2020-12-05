@@ -19,17 +19,28 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/aboutHapori"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/worksans_regular"
         android:padding="@dimen/padding_text"
-        android:text="@string/about_bpa_foodie"
+        android:text="@string/about_hapori"
         android:textColor="@color/color_primary_text"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/worksans_regular"
+        android:text="@string/app_slogan"
+        android:textColor="@color/color_secondary_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/aboutHapori" />
 
     <TextView
         android:layout_width="wrap_content"

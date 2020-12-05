@@ -1,7 +1,8 @@
 <resources>
-    <string name="app_name">BPAFoodie</string>
+    <string name="app_name">Hapori</string>
     <string name="water_reminder_description">This is a water reminder. Press below to start reminders every 15 minutes to get a notification to remind you to get up and drink some water.</string>
-    <string name="about_bpa_foodie">This is BPAFoodie, a revolutionary app that enables people around the world to be connected with one another through one interest, food. Post restaurant recommendations, request for help with recipes, or get some advice with our forum feature. Input what ingredients you have and get recipes to make with our recipe generator. Get reminders to make sure you drink plenty of water with our water reminder. For vegetarians. By a vegetarian.</string>
+    <string name="about_hapori">This is Hapori, a revolutionary app that enables people around the world to form communities through a common interest, food.</string>
+    <string name="app_slogan">For vegetarians. By a vegetarian.</string>
     <string name="spoonacularApiKey">62a8233ca22748d0be6734fbcc86e8e9</string>
     <string name="reminders_disabled">Reminders disabled!</string>
     <string name="reminders_enabled">Reminders enabled!</string>
