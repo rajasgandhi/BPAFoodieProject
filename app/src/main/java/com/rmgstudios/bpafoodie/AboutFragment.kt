@@ -24,8 +24,8 @@ class AboutFragment : Fragment() {
         val displayMetrics = DisplayMetrics()
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
-            activity!!.display!!.getRealMetrics(displayMetrics)
-        } else activity!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
+            requireActivity().display!!.getRealMetrics(displayMetrics)
+        } else requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
 
         val width = displayMetrics.widthPixels
 

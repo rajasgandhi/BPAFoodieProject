@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
@@ -9,9 +10,9 @@
         android:id="@+id/exit_create_post"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="@dimen/fab_margin"
         android:src="@drawable/ic_x"
+        app:layout_constraintBottom_toBottomOf="@id/title_divider"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -19,13 +20,16 @@
         android:id="@+id/create_a_post_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="38dp"
-        android:layout_marginTop="27dp"
+        android:layout_marginStart="56dp"
         android:fontFamily="@font/poppins_bold"
+        android:gravity="center"
+        android:layout_marginTop="6dp"
         android:text="@string/create_a_post"
+        android:textAlignment="center"
         android:textColor="@color/color_primary_text"
-        android:textSize="22sp"
-        app:layout_constraintStart_toStartOf="@+id/exit_create_post"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@id/title_divider"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
@@ -40,7 +44,7 @@
         android:id="@+id/title_edit_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="@dimen/fab_margin"
         android:layout_marginTop="20dp"
         android:background="@android:color/transparent"
         android:fontFamily="@font/poppins_bold"
@@ -54,9 +58,9 @@
         android:id="@+id/description_edit_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="@dimen/fab_margin"
         android:background="@android:color/transparent"
-        android:fontFamily="@font/poppins_bold"
+        android:fontFamily="@font/worksans_regular"
         android:hint="Description of the post"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"

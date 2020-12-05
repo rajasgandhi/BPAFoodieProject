@@ -32,13 +32,13 @@ class RecipeFragment : Fragment() {
         val recipeList1 = ArrayList<RecipeListData>()
 
         recipeListView.adapter = RecipeListAdapter(recipeList1)
-        recipeListView.layoutManager = LinearLayoutManager(activity!!)
+        recipeListView.layoutManager = LinearLayoutManager(requireActivity())
 
         getRecipesBtn.setOnClickListener {
 
             if (ingredientInput.text.isNullOrBlank()) {
                 Toast.makeText(
-                    activity!!,
+                    requireActivity(),
                     "Please make sure your ingredients are not blank!",
                     Toast.LENGTH_SHORT
                 ).show()
@@ -77,16 +77,16 @@ class RecipeFragment : Fragment() {
                                 )
                             }
                             if (recipeList1.isEmpty()) {
-                                activity!!.runOnUiThread {
+                                requireActivity().runOnUiThread {
                                     Toast.makeText(
-                                        activity!!,
+                                        requireActivity(),
                                         "Please make sure you have vegetarian ingredients!",
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 }
                             } else {
-                                activity!!.runOnUiThread {
-                                    val intent = Intent(activity!!, RecipeResults::class.java)
+                                requireActivity().runOnUiThread {
+                                    val intent = Intent(requireActivity(), RecipeResults::class.java)
                                     intent.putExtra("RECIPE_LIST", recipeList1)
                                     startActivity(intent)
                                 }
@@ -104,8 +104,8 @@ class RecipeFragment : Fragment() {
         val displayMetrics = DisplayMetrics()
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
-            activity!!.display!!.getRealMetrics(displayMetrics)
-        } else activity!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
+            requireActivity().display!!.getRealMetrics(displayMetrics)
+        } else requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
 
         val width = displayMetrics.widthPixels
 

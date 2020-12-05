@@ -1,19 +1,23 @@
 package com.rmgstudios.bpafoodie
 
-import android.content.Intent
+import android.app.Activity
+import android.content.Context
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.flipboard.bottomsheet.BottomSheetLayout
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -21,6 +25,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
+
 
 class HomeFragment : Fragment() {
     private lateinit var mSwipeRefreshLayout : SwipeRefreshLayout
@@ -45,8 +50,8 @@ class HomeFragment : Fragment() {
 
         mSwipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout)
 
-        feedListView.adapter = FeedPostsAdapter(activity!!, feedList)
-        feedListView.layoutManager = LinearLayoutManager(activity!!)
+        feedListView.adapter = FeedPostsAdapter(requireActivity(), feedList)
+        feedListView.layoutManager = LinearLayoutManager(requireActivity())
 
         retrieveFeed()
 
@@ -56,7 +61,11 @@ class HomeFragment : Fragment() {
         }
 
         addPostFab.setOnClickListener {
-            val postView = LayoutInflater.from(activity!!).inflate(R.layout.main_post_creation, bottomSheetView, false)
+            val postView = LayoutInflater.from(requireActivity()).inflate(
+                R.layout.main_post_creation,
+                bottomSheetView,
+                false
+            )
             val closeButton = postView.findViewById<ImageView>(R.id.exit_create_post)
             val postTitle = postView.findViewById<EditText>(R.id.title_edit_text)
             val postDescription = postView.findViewById<EditText>(R.id.description_edit_text)
@@ -64,22 +73,47 @@ class HomeFragment : Fragment() {
             if(postTitle.text.toString() == "" || postDescription.text.toString() == "") {
                 postBtn.alpha = 0.3f
             }
+
+            val displayMetrics = DisplayMetrics()
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+                requireActivity().display!!.getRealMetrics(displayMetrics)
+            } else requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
+
+            val height = displayMetrics.heightPixels
+            val width = displayMetrics.widthPixels
+
+            postTitle.width = (width - convertPixelsToDp(32f, requireActivity())).toInt()
+            postDescription.width = (width - convertPixelsToDp(32f, requireActivity())).toInt()
+
             postTitle.setOnKeyListener(View.OnKeyListener { _, _, _ ->
-                if(postTitle.text.toString() == "" || postDescription.text.toString() == "") {
+                if (postTitle.text.toString() == "" || postDescription.text.toString() == "") {
                     postBtn.alpha = 0.3f
                 } else {
                     postBtn.alpha = 1f
                 }
                 return@OnKeyListener false
             })
+
             postDescription.setOnKeyListener(View.OnKeyListener { _, _, _ ->
-                if(postTitle.text.toString() == "" || postDescription.text.toString() == "") {
+                if (postTitle.text.toString() == "" || postDescription.text.toString() == "") {
                     postBtn.alpha = 0.3f
                 } else {
                     postBtn.alpha = 1f
                 }
                 return@OnKeyListener false
             })
+
+            /*postTitle.onFocusChangeListener = View.OnFocusChangeListener { view: View, b: Boolean ->
+                if(!b) {
+                    hideKeyboard(view)
+                }
+            }
+            postDescription.onFocusChangeListener = View.OnFocusChangeListener { view: View, b: Boolean ->
+                if(!b) {
+                    hideKeyboard(requireActivity())
+                }
+            }*/
             closeButton.setOnClickListener{
                 if(bottomSheetView.isSheetShowing)
                     bottomSheetView.dismissSheet()
@@ -104,7 +138,10 @@ class HomeFragment : Fragment() {
 
                         override fun onResponse(call: Call, response: Response) {
                             response.use {
-                                if (!response.isSuccessful) throw IOException("Unexpected code $response")
+                                if (!response.isSuccessful) {
+                                    Toast.makeText(requireActivity(), "Oops! An error occurred, please try again", Toast.LENGTH_SHORT).show()
+                                    throw IOException("Unexpected code $response")
+                                }
 
                                 val responseBody = response.body!!.string()
 
@@ -115,14 +152,6 @@ class HomeFragment : Fragment() {
                     bottomSheetView.dismissSheet()
                 }
             }
-
-            val displayMetrics = DisplayMetrics()
-
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
-                activity!!.display!!.getRealMetrics(displayMetrics)
-            } else activity!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
-
-            val height = displayMetrics.heightPixels
 
             bottomSheetView.peekSheetTranslation = height.toFloat()
             bottomSheetView.showWithSheetView(postView)
@@ -135,8 +164,8 @@ class HomeFragment : Fragment() {
         val displayMetrics = DisplayMetrics()
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
-            activity!!.display!!.getRealMetrics(displayMetrics)
-        } else activity!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
+            requireActivity().display!!.getRealMetrics(displayMetrics)
+        } else requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
 
         val width = displayMetrics.widthPixels
 
@@ -166,7 +195,7 @@ class HomeFragment : Fragment() {
                     val resultLength = jsonArray.length()
 
                     val listAdapter =
-                        FeedPostsAdapter(activity!!, feedList)
+                        FeedPostsAdapter(requireActivity(), feedList)
 
                     feedList.clear()
 
@@ -179,13 +208,24 @@ class HomeFragment : Fragment() {
                         )
                     }
                     listAdapter.notifyDataSetChanged()
-                    activity!!.runOnUiThread {
+                    requireActivity().runOnUiThread {
                         feedListView.adapter = listAdapter
-                        feedListView.layoutManager = LinearLayoutManager(activity!!)
+                        feedListView.layoutManager = LinearLayoutManager(requireActivity())
                     }
                 }
             }
         })
         mSwipeRefreshLayout.isRefreshing = false
     }
+
+    fun convertPixelsToDp(dp: Float, context: Context): Float {
+        return dp * (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
+    }
+
+    /*private fun hideKeyboard(view: View) {
+        val inputMethodManager: InputMethodManager? =
+            requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager?
+        inputMethodManager!!.hideSoftInputFromWindow(view.windowToken, 0)
+    }*/
+
 }
