@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
+import android.os.Looper
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
@@ -133,13 +134,16 @@ class HomeFragment : Fragment() {
 
                     client.newCall(request).enqueue(object : Callback {
                         override fun onFailure(call: Call, e: IOException) {
+                            Looper.prepare()
+                            Toast.makeText(requireActivity(), "Oops! An error occurred, please try again later!", Toast.LENGTH_SHORT).show()
                             e.printStackTrace()
                         }
 
                         override fun onResponse(call: Call, response: Response) {
                             response.use {
                                 if (!response.isSuccessful) {
-                                    Toast.makeText(requireActivity(), "Oops! An error occurred, please try again", Toast.LENGTH_SHORT).show()
+                                    Looper.prepare()
+                                    Toast.makeText(requireActivity(), "Oops! An error occurred, please try again!", Toast.LENGTH_SHORT).show()
                                     throw IOException("Unexpected code $response")
                                 }
 
@@ -221,11 +225,5 @@ class HomeFragment : Fragment() {
     fun convertPixelsToDp(dp: Float, context: Context): Float {
         return dp * (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
     }
-
-    /*private fun hideKeyboard(view: View) {
-        val inputMethodManager: InputMethodManager? =
-            requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager?
-        inputMethodManager!!.hideSoftInputFromWindow(view.windowToken, 0)
-    }*/
 
 }

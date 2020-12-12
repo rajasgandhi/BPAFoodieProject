@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var bottomNavigationView: BottomNavigationView
     private val fragment1: Fragment = HomeFragment()
     private val fragment2: Fragment = RecipeFragment()
-    private val fragment4: Fragment = AboutFragment()
+    private val fragment3: Fragment = AboutFragment()
     private val fm: FragmentManager = supportFragmentManager
     var active: Fragment = fragment1
 
@@ -40,43 +40,16 @@ class MainActivity : AppCompatActivity() {
                     active = fragment2
                 }
                 R.id.nav_about -> {
-                    fm.beginTransaction().hide(active).show(fragment4).commit()
-                    active = fragment4
+                    fm.beginTransaction().hide(active).show(fragment3).commit()
+                    active = fragment3
                 }
 
             }
             true
         }
-        fm.beginTransaction().add(R.id.main_container, fragment4, "4").hide(fragment4).commit()
+        fm.beginTransaction().add(R.id.main_container, fragment3, "3").hide(fragment3).commit()
         fm.beginTransaction().add(R.id.main_container, fragment2, "2").hide(fragment2).commit()
         fm.beginTransaction().add(R.id.main_container,fragment1, "1").commit()
     }
 
-    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
-        val v = currentFocus
-        if (v != null && (ev.action == MotionEvent.ACTION_UP || ev.action == MotionEvent.ACTION_MOVE)
-            && v is EditText
-            && !v.javaClass.name.startsWith("android.webkit.")
-        ) {
-            val scrcoords = IntArray(2)
-            v.getLocationOnScreen(scrcoords)
-            val x = ev.rawX + v.getLeft() - scrcoords[0]
-            val y = ev.rawY + v.getTop() - scrcoords[1]
-            if (x < v.getLeft() || x > v.getRight() || y < v.getTop() || y > v.getBottom()
-            ) hideKeyboard(this)
-        }
-        return super.dispatchTouchEvent(ev)
-    }
-
-    fun hideKeyboard(activity: Activity?) {
-        if (activity != null && activity.window != null
-        ) {
-            val imm = activity
-                .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(
-                activity.window.decorView
-                    .windowToken, 0
-            )
-        }
-    }
 }

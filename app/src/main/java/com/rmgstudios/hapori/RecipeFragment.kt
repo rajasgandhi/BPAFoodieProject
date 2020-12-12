@@ -27,12 +27,8 @@ class RecipeFragment : Fragment() {
     ): View? {
         val view: View = inflater.inflate(R.layout.fragment_recipe, container, false)
         val getRecipesBtn = view.findViewById<Button>(R.id.getRecipesBtn)
-        val recipeListView = view.findViewById<RecyclerView>(R.id.recipeList)
         val ingredientInput = view.findViewById<EditText>(R.id.ingredientInput)
         val recipeList1 = ArrayList<RecipeListData>()
-
-        recipeListView.adapter = RecipeListAdapter(recipeList1)
-        recipeListView.layoutManager = LinearLayoutManager(requireActivity())
 
         getRecipesBtn.setOnClickListener {
 

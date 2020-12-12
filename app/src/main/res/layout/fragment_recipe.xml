@@ -26,6 +26,7 @@
         android:fontFamily="@font/worksans_regular"
         android:hint="What do you have?"
         android:inputType="text"
+        android:layout_marginTop="20dp"
         android:textColorHint="@color/color_secondary_text"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -42,14 +43,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recipeList"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/getRecipesBtn" />
+        app:layout_constraintTop_toBottomOf="@+id/ingredientInput" />
 </androidx.constraintlayout.widget.ConstraintLayout>
