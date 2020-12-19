@@ -26,12 +26,13 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
+import com.rmgstudios.hapori.BuildConfig
 
 
 class HomeFragment : Fragment() {
-    private lateinit var mSwipeRefreshLayout : SwipeRefreshLayout
-    private lateinit var feedListView : RecyclerView
-    private lateinit var addPostFab : FloatingActionButton
+    private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var feedListView: RecyclerView
+    private lateinit var addPostFab: FloatingActionButton
     private var feedList = ArrayList<FeedData>()
     fun HomeFragment() {
 
@@ -56,7 +57,7 @@ class HomeFragment : Fragment() {
 
         retrieveFeed()
 
-        mSwipeRefreshLayout.setOnRefreshListener{
+        mSwipeRefreshLayout.setOnRefreshListener {
             mSwipeRefreshLayout.isRefreshing = true
             retrieveFeed()
         }
@@ -71,7 +72,7 @@ class HomeFragment : Fragment() {
             val postTitle = postView.findViewById<EditText>(R.id.title_edit_text)
             val postDescription = postView.findViewById<EditText>(R.id.description_edit_text)
             val postBtn = postView.findViewById<Button>(R.id.post_button)
-            if(postTitle.text.toString() == "" || postDescription.text.toString() == "") {
+            if (postTitle.text.toString() == "" || postDescription.text.toString() == "") {
                 postBtn.alpha = 0.3f
             }
 
@@ -115,27 +116,39 @@ class HomeFragment : Fragment() {
                     hideKeyboard(requireActivity())
                 }
             }*/
-            closeButton.setOnClickListener{
-                if(bottomSheetView.isSheetShowing)
+            closeButton.setOnClickListener {
+                if (bottomSheetView.isSheetShowing)
                     bottomSheetView.dismissSheet()
             }
-            postBtn.setOnClickListener{
-                if(postBtn.alpha != 0.3f) {
+            postBtn.setOnClickListener {
+                if (postBtn.alpha != 0.3f) {
                     val client = OkHttpClient()
 
-                    val json = "{\"title\":\"" + postTitle.text.toString() + "\",\"body\":\"" + postDescription.text.toString() + "\"}"
+                    val json =
+                        "{\"title\":\"" + postTitle.text.toString() + "\",\"body\":\"" + postDescription.text.toString() + "\"}"
 
                     val body = json.toRequestBody("application/json".toMediaTypeOrNull())
 
-                    val request = Request.Builder()
-                        .url(getString(R.string.url_send_post))
-                        .post(body)
-                        .build()
+                    val request: Request = if (BuildConfig.DEBUG) {
+                        Request.Builder()
+                            .url(getString(R.string.url_send_post_dev))
+                            .post(body)
+                            .build()
+                    } else {
+                        Request.Builder()
+                            .url(getString(R.string.url_send_post_prod))
+                            .post(body)
+                            .build()
+                    }
 
                     client.newCall(request).enqueue(object : Callback {
                         override fun onFailure(call: Call, e: IOException) {
                             Looper.prepare()
-                            Toast.makeText(requireActivity(), "Oops! An error occurred, please try again later!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                requireActivity(),
+                                "Oops! An error occurred, please try again later!",
+                                Toast.LENGTH_SHORT
+                            ).show()
                             e.printStackTrace()
                         }
 
@@ -143,7 +156,11 @@ class HomeFragment : Fragment() {
                             response.use {
                                 if (!response.isSuccessful) {
                                     Looper.prepare()
-                                    Toast.makeText(requireActivity(), "Oops! An error occurred, please try again!", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        requireActivity(),
+                                        "Oops! An error occurred, please try again!",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                     throw IOException("Unexpected code $response")
                                 }
 
@@ -179,10 +196,17 @@ class HomeFragment : Fragment() {
     private fun retrieveFeed() {
         val client = OkHttpClient()
 
-        val request = Request.Builder()
-            .url(getString(R.string.url_get_posts))
-            .get()
-            .build()
+        val request: Request = if (BuildConfig.DEBUG) {
+            Request.Builder()
+                .url(getString(R.string.url_get_posts_dev))
+                .get()
+                .build()
+        } else {
+            Request.Builder()
+                .url(getString(R.string.url_get_posts_prod))
+                .get()
+                .build()
+        }
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
