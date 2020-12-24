@@ -7,9 +7,7 @@
     <string name="reminders_disabled">Reminders disabled!</string>
     <string name="reminders_enabled">Reminders enabled!</string>
     <string name="feed">Feed</string>
-    <string name="url_get_posts_dev">http://192.168.1.18:3000/getposts</string>
-    <string name="url_send_post_dev">http://192.168.1.18:3000/sendpost</string>
-    <string name="url_get_posts_prod">https://haporiserver.herokuapp.com/getposts</string>
-    <string name="url_send_post_prod">https://haporiserver.herokuapp.com/sendpost</string>
+    <string name="url_get_posts">https://haporiserver.herokuapp.com/getposts</string>
+    <string name="url_send_post">https://haporiserver.herokuapp.com/sendpost</string>
     <string name="create_a_post">Create a post</string>
 </resources>

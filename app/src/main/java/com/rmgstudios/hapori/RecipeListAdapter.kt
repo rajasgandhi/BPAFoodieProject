@@ -31,9 +31,9 @@ class RecipeListAdapter(private val recipes: ArrayList<RecipeListData>) :
         val context = parent.context
         val inflater = LayoutInflater.from(context)
         // Inflate the custom layout
-        val contactView = inflater.inflate(R.layout.list_row, parent, false)
+        val listRowView = inflater.inflate(R.layout.list_row, parent, false)
         // Return a new holder instance
-        return ViewHolder(contactView)
+        return ViewHolder(listRowView)
     }
 
     // Involves populating data into the item through holder

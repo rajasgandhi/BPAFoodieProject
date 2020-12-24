@@ -26,7 +26,7 @@
         android:fontFamily="@font/worksans_regular"
         android:hint="What do you have?"
         android:inputType="text"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="60dp"
         android:textColorHint="@color/color_secondary_text"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

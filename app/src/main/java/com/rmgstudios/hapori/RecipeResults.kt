@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-
 class RecipeResults : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,14 +18,16 @@ class RecipeResults : AppCompatActivity() {
 
         val listAdapter =
             RecipeListAdapter(returnedRecipeList!!)
-        recipeListView.adapter = listAdapter
-        recipeListView.layoutManager = LinearLayoutManager(this)
-        /*(recipeListView.layoutManager as LinearLayoutManager).isMeasurementCacheEnabled = true
         recipeListView.addItemDecoration(
             DividerItemDecoration(
                 recipeListView.context,
                 DividerItemDecoration.HORIZONTAL
             )
-        )*/
+        )
+        recipeListView.adapter = listAdapter
+        recipeListView.layoutManager = LinearLayoutManager(this)
+        /*(recipeListView.layoutManager as LinearLayoutManager).isMeasurementCacheEnabled = true
+
+        */
     }
 }

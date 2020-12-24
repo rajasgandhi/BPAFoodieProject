@@ -55,10 +55,54 @@ class HomeFragment : Fragment() {
         feedListView.adapter = FeedPostsAdapter(requireActivity(), feedList)
         feedListView.layoutManager = LinearLayoutManager(requireActivity())
 
-        retrieveFeed()
+        //retrieveFeed()
+        val client = OkHttpClient()
+
+        val request: Request = Request.Builder()
+            .url(getString(R.string.url_get_posts))
+            .get()
+            .build()
+
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                response.use {
+                    if (!response.isSuccessful) throw IOException("Unexpected code $response")
+
+                    val responseBody = response.body!!.string()
+
+                    val jsonArray = JSONArray(responseBody)
+                    val resultLength = jsonArray.length()
+
+                    val listAdapter =
+                        FeedPostsAdapter(requireActivity(), feedList)
+
+                    feedList.clear()
+
+                    for (i in 0 until resultLength) {
+                        feedList.add(
+                            FeedData(
+                                (jsonArray[i] as JSONObject).getString("title").toString(),
+                                (jsonArray[i] as JSONObject).getString("body").toString()
+                            )
+                        )
+                    }
+                    listAdapter.notifyDataSetChanged()
+                    requireActivity().runOnUiThread {
+                        feedListView.adapter = listAdapter
+                        feedListView.layoutManager = LinearLayoutManager(requireActivity())
+                    }
+                }
+            }
+        })
 
         mSwipeRefreshLayout.setOnRefreshListener {
             mSwipeRefreshLayout.isRefreshing = true
+            Log.d("TAG", "got here")
             retrieveFeed()
         }
 
@@ -129,17 +173,11 @@ class HomeFragment : Fragment() {
 
                     val body = json.toRequestBody("application/json".toMediaTypeOrNull())
 
-                    val request: Request = if (BuildConfig.DEBUG) {
+                    val request: Request =
                         Request.Builder()
-                            .url(getString(R.string.url_send_post_dev))
+                            .url(getString(R.string.url_send_post))
                             .post(body)
                             .build()
-                    } else {
-                        Request.Builder()
-                            .url(getString(R.string.url_send_post_prod))
-                            .post(body)
-                            .build()
-                    }
 
                     client.newCall(request).enqueue(object : Callback {
                         override fun onFailure(call: Call, e: IOException) {
@@ -196,17 +234,11 @@ class HomeFragment : Fragment() {
     private fun retrieveFeed() {
         val client = OkHttpClient()
 
-        val request: Request = if (BuildConfig.DEBUG) {
-            Request.Builder()
-                .url(getString(R.string.url_get_posts_dev))
-                .get()
-                .build()
-        } else {
-            Request.Builder()
-                .url(getString(R.string.url_get_posts_prod))
-                .get()
-                .build()
-        }
+        val request: Request = Request.Builder()
+            .url(getString(R.string.url_get_posts))
+            .get()
+            .build()
+
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
