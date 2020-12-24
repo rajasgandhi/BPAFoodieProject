@@ -1,4 +1,4 @@
-package com.rmgstudios.hapori
+package com.rmgstudios.hapori.fragments
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,10 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.rmgstudios.hapori.R
+import com.rmgstudios.hapori.RecipeResults
+import com.rmgstudios.hapori.helpers.RecipeListData
 import okhttp3.*
-import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 

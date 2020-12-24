@@ -39,10 +39,6 @@
             android:configChanges="orientation"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait" />
-
-        <receiver android:name=".NotificationSender">
-
-        </receiver>
     </application>
 
 </manifest>

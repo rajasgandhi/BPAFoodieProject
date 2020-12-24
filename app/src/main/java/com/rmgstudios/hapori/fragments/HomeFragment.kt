@@ -1,32 +1,29 @@
-package com.rmgstudios.hapori
+package com.rmgstudios.hapori.fragments
 
-import android.app.Activity
 import android.content.Context
-import android.graphics.Rect
 import android.os.Bundle
 import android.os.Looper
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.*
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.flipboard.bottomsheet.BottomSheetLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.rmgstudios.hapori.R
+import com.rmgstudios.hapori.helpers.FeedData
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
-import com.rmgstudios.hapori.BuildConfig
+import com.rmgstudios.hapori.helpers.FeedPostsAdapter
 
 
 class HomeFragment : Fragment() {

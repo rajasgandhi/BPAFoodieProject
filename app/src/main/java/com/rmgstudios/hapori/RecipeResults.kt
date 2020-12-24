@@ -2,9 +2,12 @@ package com.rmgstudios.hapori
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.rmgstudios.hapori.helpers.RecipeListAdapter
+import com.rmgstudios.hapori.helpers.RecipeListData
+import com.rmgstudios.hapori.helpers.SpacesItemDecoration
+
 
 class RecipeResults : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,10 +22,7 @@ class RecipeResults : AppCompatActivity() {
         val listAdapter =
             RecipeListAdapter(returnedRecipeList!!)
         recipeListView.addItemDecoration(
-            DividerItemDecoration(
-                recipeListView.context,
-                DividerItemDecoration.HORIZONTAL
-            )
+            SpacesItemDecoration(20)
         )
         recipeListView.adapter = listAdapter
         recipeListView.layoutManager = LinearLayoutManager(this)

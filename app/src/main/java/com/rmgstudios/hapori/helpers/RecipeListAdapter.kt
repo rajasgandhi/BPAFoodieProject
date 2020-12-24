@@ -1,4 +1,4 @@
-package com.rmgstudios.hapori
+package com.rmgstudios.hapori.helpers
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.rmgstudios.hapori.R
 import com.squareup.picasso.Picasso
 
 // Create the basic adapter extending from RecyclerView.Adapter
@@ -27,7 +28,7 @@ class RecipeListAdapter(private val recipes: ArrayList<RecipeListData>) :
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): RecipeListAdapter.ViewHolder {
+    ): ViewHolder {
         val context = parent.context
         val inflater = LayoutInflater.from(context)
         // Inflate the custom layout
@@ -37,7 +38,7 @@ class RecipeListAdapter(private val recipes: ArrayList<RecipeListData>) :
     }
 
     // Involves populating data into the item through holder
-    override fun onBindViewHolder(viewHolder: RecipeListAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         // Get the data model based on position
         val recipe: RecipeListData = recipes[position]
         // Set item views based on your views and data model

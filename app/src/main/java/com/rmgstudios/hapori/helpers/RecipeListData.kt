@@ -1,4 +1,4 @@
-package com.rmgstudios.hapori
+package com.rmgstudios.hapori.helpers
 
 import java.io.Serializable
 

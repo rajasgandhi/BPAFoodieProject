@@ -1,4 +1,4 @@
-package com.rmgstudios.hapori
+package com.rmgstudios.hapori.helpers
 
 import android.content.Context
 import android.content.res.Resources

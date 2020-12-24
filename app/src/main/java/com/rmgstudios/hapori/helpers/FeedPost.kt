@@ -1,17 +1,12 @@
-package com.rmgstudios.hapori
+package com.rmgstudios.hapori.helpers
 
 import android.content.Context
-import android.util.AttributeSet
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 
 import android.widget.RelativeLayout
 import android.widget.TextView
-import androidx.core.view.marginBottom
-import androidx.core.view.marginLeft
-import androidx.core.view.marginRight
-import androidx.core.view.marginTop
+import com.rmgstudios.hapori.R
 
 
 class FeedPost(context: Context?) : RelativeLayout(context) {
