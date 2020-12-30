@@ -67,8 +67,9 @@ class RecipeFragment : Fragment() {
                             for (i in 0 until resultLength) {
                                 recipeList1.add(
                                     RecipeListData(
-                                        (results[i] as JSONObject).getString("title").toString(),
-                                        (results[i] as JSONObject).getString("image").toString()
+                                        (results[i] as JSONObject).getString("title"),
+                                        (results[i] as JSONObject).getString("image"),
+                                        (results[i] as JSONObject).getInt("id")
                                     )
                                 )
                             }

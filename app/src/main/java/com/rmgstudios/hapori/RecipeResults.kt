@@ -2,6 +2,9 @@ package com.rmgstudios.hapori
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.rmgstudios.hapori.helpers.RecipeListAdapter
@@ -20,14 +23,17 @@ class RecipeResults : AppCompatActivity() {
             intent.extras?.getSerializable("RECIPE_LIST") as ArrayList<RecipeListData>?
 
         val listAdapter =
-            RecipeListAdapter(returnedRecipeList!!)
+            RecipeListAdapter(returnedRecipeList!!, this)
         recipeListView.addItemDecoration(
-            SpacesItemDecoration(20)
+            SpacesItemDecoration(20, ContextCompat.getDrawable(this, R.drawable.list_divider)!!)
+        )
+        recipeListView.addItemDecoration(
+            DividerItemDecoration(
+                this,
+                DividerItemDecoration.HORIZONTAL
+            )
         )
         recipeListView.adapter = listAdapter
         recipeListView.layoutManager = LinearLayoutManager(this)
-        /*(recipeListView.layoutManager as LinearLayoutManager).isMeasurementCacheEnabled = true
-
-        */
     }
 }
