@@ -7,14 +7,18 @@
 
     <TextView
         android:id="@+id/recipeName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:fontFamily="@font/worksans_regular"
+        android:scrollHorizontally="false"
         android:text="Recipe Name"
         android:textColor="@color/color_primary_text"
         android:textSize="16sp"
+        android:maxLines="3"
+        android:ellipsize="end"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/recipeImg"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

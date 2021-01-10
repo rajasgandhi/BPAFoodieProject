@@ -52,55 +52,13 @@ class HomeFragment : Fragment() {
         feedListView.adapter = FeedPostsAdapter(requireActivity(), feedList)
         feedListView.layoutManager = LinearLayoutManager(requireActivity())
 
-        //retrieveFeed()
-        val client = OkHttpClient()
-
-        val request: Request = Request.Builder()
-            .url(getString(R.string.url_get_posts))
-            .get()
-            .build()
-
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                response.use {
-                    if (!response.isSuccessful) throw IOException("Unexpected code $response")
-
-                    val responseBody = response.body!!.string()
-
-                    val jsonArray = JSONArray(responseBody)
-                    val resultLength = jsonArray.length()
-
-                    val listAdapter =
-                        FeedPostsAdapter(requireActivity(), feedList)
-
-                    feedList.clear()
-
-                    for (i in 0 until resultLength) {
-                        feedList.add(
-                            FeedData(
-                                (jsonArray[i] as JSONObject).getString("title").toString(),
-                                (jsonArray[i] as JSONObject).getString("body").toString()
-                            )
-                        )
-                    }
-                    listAdapter.notifyDataSetChanged()
-                    requireActivity().runOnUiThread {
-                        feedListView.adapter = listAdapter
-                        feedListView.layoutManager = LinearLayoutManager(requireActivity())
-                    }
-                }
-            }
-        })
+        retrieveFeed()
 
         mSwipeRefreshLayout.setOnRefreshListener {
             mSwipeRefreshLayout.isRefreshing = true
             Log.d("TAG", "got here")
             retrieveFeed()
+            mSwipeRefreshLayout.isRefreshing = false
         }
 
         addPostFab.setOnClickListener {
@@ -272,7 +230,6 @@ class HomeFragment : Fragment() {
                 }
             }
         })
-        mSwipeRefreshLayout.isRefreshing = false
     }
 
     fun convertPixelsToDp(dp: Float, context: Context): Float {

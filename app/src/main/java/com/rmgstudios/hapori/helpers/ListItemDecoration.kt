@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 
 
-class SpacesItemDecoration(private val space: Int, private val divider: Drawable) :
+class ListItemDecoration(private val space: Int, private val divider: Drawable) :
     ItemDecoration() {
     override fun getItemOffsets(
         outRect: Rect,
@@ -18,16 +18,11 @@ class SpacesItemDecoration(private val space: Int, private val divider: Drawable
     ) {
         outRect.left = space
         outRect.right = space
+        outRect.bottom = space
 
         // Add top margin only for the first item to avoid double space between items
         if (parent.getChildAdapterPosition(view) == 0) {
             outRect.top = space
-        }
-
-        if (parent.getChildAdapterPosition(view) != parent.adapter!!.itemCount) {
-            outRect.bottom = space
-        } else {
-            outRect.bottom = 0
         }
     }
 
@@ -35,7 +30,7 @@ class SpacesItemDecoration(private val space: Int, private val divider: Drawable
         val dividerLeft = parent.paddingLeft
         val dividerRight = parent.width - parent.paddingRight
         val childCount = parent.childCount
-        for (i in 0 until childCount - 1) {
+        for (i in 0 until childCount) {
             val child = parent.getChildAt(i)
             val params = child.layoutParams as RecyclerView.LayoutParams
             val dividerTop = child.bottom + params.bottomMargin + 10

@@ -3,13 +3,12 @@ package com.rmgstudios.hapori
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.rmgstudios.hapori.helpers.RecipeListAdapter
 import com.rmgstudios.hapori.helpers.RecipeListData
-import com.rmgstudios.hapori.helpers.SpacesItemDecoration
+import com.rmgstudios.hapori.helpers.ListItemDecoration
 
 
 class RecipeResults : AppCompatActivity() {
@@ -25,7 +24,7 @@ class RecipeResults : AppCompatActivity() {
         val listAdapter =
             RecipeListAdapter(returnedRecipeList!!, this)
         recipeListView.addItemDecoration(
-            SpacesItemDecoration(20, ContextCompat.getDrawable(this, R.drawable.list_divider)!!)
+            ListItemDecoration(20, ContextCompat.getDrawable(this, R.drawable.list_divider)!!)
         )
         recipeListView.addItemDecoration(
             DividerItemDecoration(
