@@ -14,4 +14,4 @@
 .cxx
 local.properties
 haporikeystore.jks
-google-services.json
+#google-services.json

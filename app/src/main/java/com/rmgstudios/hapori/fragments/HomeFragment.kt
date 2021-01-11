@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.flipboard.bottomsheet.BottomSheetLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.rmgstudios.hapori.R
 import com.rmgstudios.hapori.helpers.FeedData
 import okhttp3.*
@@ -120,7 +122,11 @@ class HomeFragment : Fragment() {
                     bottomSheetView.dismissSheet()
             }
             postBtn.setOnClickListener {
-                if (postBtn.alpha != 0.3f) {
+                val db = Firebase.database
+                val ref = db.getReference("/post")
+                ref.setValue("Hello, world")
+                retrieveFeed()
+                /*if (postBtn.alpha != 0.3f) {
                     val client = OkHttpClient()
 
                     val json =
@@ -164,10 +170,9 @@ class HomeFragment : Fragment() {
                         }
                     })
                     bottomSheetView.dismissSheet()
-                }
-                retrieveFeed()
+                }*/
             }
-
+            
             bottomSheetView.peekSheetTranslation = height.toFloat()
             bottomSheetView.showWithSheetView(postView)
         }
