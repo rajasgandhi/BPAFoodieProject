@@ -147,12 +147,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun retrieveFeed() {
-        Log.d("TAG", "here")
         val ref = FirebaseDatabase.getInstance().reference.child("posts")
         val listener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val listAdapter =
-                    FeedPostsAdapter(requireActivity(), feedList)
                 feedList.clear()
                 for (messageSnapshot in dataSnapshot.children) {
                     val postName = messageSnapshot.child("title").value as String
@@ -164,7 +161,8 @@ class HomeFragment : Fragment() {
                             postBody,
                         )
                     )
-                    listAdapter.notifyDataSetChanged()
+                    val listAdapter =
+                        FeedPostsAdapter(requireActivity(), feedList)
                     requireActivity().runOnUiThread {
                         feedListView.adapter = listAdapter
                         feedListView.layoutManager = LinearLayoutManager(requireActivity())
