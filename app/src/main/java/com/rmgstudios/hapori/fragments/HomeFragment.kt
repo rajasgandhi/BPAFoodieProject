@@ -2,7 +2,6 @@ package com.rmgstudios.hapori.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.os.Looper
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,17 +14,18 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.flipboard.bottomsheet.BottomSheetLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.FirebaseApp
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.rmgstudios.hapori.R
 import com.rmgstudios.hapori.helpers.FeedData
-import okhttp3.*
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.RequestBody.Companion.toRequestBody
-import org.json.JSONArray
-import org.json.JSONObject
-import java.io.IOException
 import com.rmgstudios.hapori.helpers.FeedPostsAdapter
+import okhttp3.*
+import org.json.JSONObject
 
 
 class HomeFragment : Fragment() {
@@ -41,6 +41,7 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        FirebaseApp.initializeApp(requireActivity())
         val view: View = inflater.inflate(R.layout.fragment_home, container, false)
         changeTitleTextSize(view.findViewById(R.id.feedText))
 
@@ -58,7 +59,6 @@ class HomeFragment : Fragment() {
 
         mSwipeRefreshLayout.setOnRefreshListener {
             mSwipeRefreshLayout.isRefreshing = true
-            Log.d("TAG", "got here")
             retrieveFeed()
             mSwipeRefreshLayout.isRefreshing = false
         }
@@ -107,72 +107,26 @@ class HomeFragment : Fragment() {
                 return@OnKeyListener false
             })
 
-            /*postTitle.onFocusChangeListener = View.OnFocusChangeListener { view: View, b: Boolean ->
-                if(!b) {
-                    hideKeyboard(view)
-                }
-            }
-            postDescription.onFocusChangeListener = View.OnFocusChangeListener { view: View, b: Boolean ->
-                if(!b) {
-                    hideKeyboard(requireActivity())
-                }
-            }*/
             closeButton.setOnClickListener {
                 if (bottomSheetView.isSheetShowing)
                     bottomSheetView.dismissSheet()
             }
+
             postBtn.setOnClickListener {
-                val db = Firebase.database
-                val ref = db.getReference("/post")
-                ref.setValue("Hello, world")
-                retrieveFeed()
-                /*if (postBtn.alpha != 0.3f) {
-                    val client = OkHttpClient()
-
-                    val json =
+                if (postTitle.text.toString() != "" && postDescription.text.toString() != "") {
+                    val ref = FirebaseDatabase.getInstance().reference
+                    val postDetails =
                         "{\"title\":\"" + postTitle.text.toString() + "\",\"body\":\"" + postDescription.text.toString() + "\"}"
-
-                    val body = json.toRequestBody("application/json".toMediaTypeOrNull())
-
-                    val request: Request =
-                        Request.Builder()
-                            .url(getString(R.string.url_send_post))
-                            .post(body)
-                            .build()
-
-                    client.newCall(request).enqueue(object : Callback {
-                        override fun onFailure(call: Call, e: IOException) {
-                            Looper.prepare()
-                            Toast.makeText(
-                                requireActivity(),
-                                "Oops! An error occurred, please try again later!",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            e.printStackTrace()
-                        }
-
-                        override fun onResponse(call: Call, response: Response) {
-                            response.use {
-                                if (!response.isSuccessful) {
-                                    Looper.prepare()
-                                    Toast.makeText(
-                                        requireActivity(),
-                                        "Oops! An error occurred, please try again!",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                    throw IOException("Unexpected code $response")
-                                }
-
-                                val responseBody = response.body!!.string()
-
-                                Log.d("TAG", responseBody)
-                            }
-                        }
-                    })
+                    val jsonMap: Map<String, Any> = Gson().fromJson(
+                        postDetails,
+                        object : TypeToken<HashMap<String?, Any?>?>() {}.type
+                    )
+                    ref.child("posts").push().setValue(jsonMap)
                     bottomSheetView.dismissSheet()
-                }*/
+                    retrieveFeed()
+                }
             }
-            
+
             bottomSheetView.peekSheetTranslation = height.toFloat()
             bottomSheetView.showWithSheetView(postView)
         }
@@ -193,41 +147,23 @@ class HomeFragment : Fragment() {
     }
 
     private fun retrieveFeed() {
-        val client = OkHttpClient()
-
-        val request: Request = Request.Builder()
-            .url(getString(R.string.url_get_posts))
-            .get()
-            .build()
-
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                response.use {
-                    if (!response.isSuccessful) throw IOException("Unexpected code $response")
-
-                    val responseBody = response.body!!.string()
-
-                    val jsonArray = JSONArray(responseBody)
-                    val resultLength = jsonArray.length()
-
-                    val listAdapter =
-                        FeedPostsAdapter(requireActivity(), feedList)
-
-                    feedList.clear()
-
-                    for (i in 0 until resultLength) {
-                        feedList.add(
-                            FeedData(
-                                (jsonArray[i] as JSONObject).getString("title").toString(),
-                                (jsonArray[i] as JSONObject).getString("body").toString()
-                            )
+        Log.d("TAG", "here")
+        val ref = FirebaseDatabase.getInstance().reference.child("posts")
+        val listener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val listAdapter =
+                    FeedPostsAdapter(requireActivity(), feedList)
+                feedList.clear()
+                for (messageSnapshot in dataSnapshot.children) {
+                    val postName = messageSnapshot.child("title").value as String
+                    val postBody = messageSnapshot.child("body").value as String
+                    feedList.add(
+                        0,
+                        FeedData(
+                            postName,
+                            postBody,
                         )
-                    }
+                    )
                     listAdapter.notifyDataSetChanged()
                     requireActivity().runOnUiThread {
                         feedListView.adapter = listAdapter
@@ -235,10 +171,17 @@ class HomeFragment : Fragment() {
                     }
                 }
             }
-        })
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Toast.makeText(requireActivity(), "Error! Please try again.", Toast.LENGTH_SHORT)
+                    .show()
+                println("loadPost:onCancelled ${databaseError.toException()}")
+            }
+        }
+        ref.addListenerForSingleValueEvent(listener)
     }
 
-    fun convertPixelsToDp(dp: Float, context: Context): Float {
+    private fun convertPixelsToDp(dp: Float, context: Context): Float {
         return dp * (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
     }
 
