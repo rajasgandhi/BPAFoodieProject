@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "684496201904",
+    "project_id": "hapori-dadf0",
+    "storage_bucket": "hapori-dadf0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:684496201904:android:620fdf40170d4c628f7375",
+        "android_client_info": {
+          "package_name": "com.rmgstudios.hapori"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "684496201904-63inobeot06fvm4pfmbpbe1tcb3eqatk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rmgstudios.hapori",
+            "certificate_hash": "62bf8807b332a8c0e1e2bc55f35966e3eee921b9"
+          }
+        },
+        {
+          "client_id": "684496201904-0igq56u2kdpanpj2hsrvvfu5jscnjqb7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8XULB0qNBisaa-5Frfl-gPisuu0BNzgs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "684496201904-0igq56u2kdpanpj2hsrvvfu5jscnjqb7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

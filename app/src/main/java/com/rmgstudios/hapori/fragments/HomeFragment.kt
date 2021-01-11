@@ -165,6 +165,7 @@ class HomeFragment : Fragment() {
                     })
                     bottomSheetView.dismissSheet()
                 }
+                retrieveFeed()
             }
 
             bottomSheetView.peekSheetTranslation = height.toFloat()

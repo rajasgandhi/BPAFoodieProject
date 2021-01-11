@@ -23,15 +23,6 @@ class FeedPostsAdapter(private var context: Context, posts: List<FeedData>) :
         // no need for a LayoutInflater instance—
         // the custom view inflates itself
         val itemView = FeedPost(parent.context)
-        // manually set the CustomView's size
-        val params = RelativeLayout.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-
-        params.setMargins(0, 0, 0, dpToPx(18f))
-
-        itemView.layoutParams = params
 
         return ViewHolder(itemView)
     }
