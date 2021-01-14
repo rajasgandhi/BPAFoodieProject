@@ -115,13 +115,17 @@ class HomeFragment : Fragment() {
             postBtn.setOnClickListener {
                 if (postTitle.text.toString() != "" && postDescription.text.toString() != "") {
                     val ref = FirebaseDatabase.getInstance().reference
-                    val postDetails =
-                        "{\"title\":\"" + postTitle.text.toString() + "\",\"body\":\"" + postDescription.text.toString() + "\"}"
-                    val jsonMap: Map<String, Any> = Gson().fromJson(
-                        postDetails,
-                        object : TypeToken<HashMap<String?, Any?>?>() {}.type
-                    )
-                    ref.child("posts").push().setValue(jsonMap)
+                    try {
+                        val postDetails =
+                            "{\"title\":\"" + postTitle.text.toString() + "\",\"body\":\"" + postDescription.text.toString() + "\"}"
+                        val jsonMap: Map<String, Any> = Gson().fromJson(
+                            postDetails,
+                            object : TypeToken<HashMap<String?, Any?>?>() {}.type
+                        )
+                        ref.child("posts").push().setValue(jsonMap)
+                    } catch (e : Exception) {
+                        Log.d("TAG", e.toString())
+                    }
                     bottomSheetView.dismissSheet()
                     retrieveFeed()
                 }
@@ -148,6 +152,8 @@ class HomeFragment : Fragment() {
 
     private fun retrieveFeed() {
         val ref = FirebaseDatabase.getInstance().reference.child("posts")
+        //val ref1 = FirebaseDatabase.getInstance().reference.child("comments")
+        //ref1.push().setValue("hi")
         val listener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 feedList.clear()
