@@ -40,7 +40,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".Test"
+            android:name=".helpers.PostExpanded"
             android:configChanges="orientation"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait" />

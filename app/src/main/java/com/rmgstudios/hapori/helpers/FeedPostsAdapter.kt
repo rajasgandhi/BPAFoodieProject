@@ -3,15 +3,10 @@ package com.rmgstudios.hapori.helpers
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
-import android.net.Uri
-import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RelativeLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.rmgstudios.hapori.Test
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -45,7 +40,7 @@ class FeedPostsAdapter(private var context: Context, posts: List<FeedData>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.getCustomView().setUpFeedPost(posts[position].postTitle, posts[position].postBody)
         holder.getCustomView().setOnClickListener {
-            val i = Intent(context, Test::class.java)
+            val i = Intent(context, PostExpanded::class.java)
             i.putExtra("POST_TITLE", posts[position].postTitle)
             i.putExtra("POST_BODY", posts[position].postBody)
             i.putExtra("POST_ID", posts[position].postID)

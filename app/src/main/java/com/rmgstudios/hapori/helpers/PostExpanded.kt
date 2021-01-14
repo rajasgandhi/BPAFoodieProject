@@ -1,26 +1,16 @@
-package com.rmgstudios.hapori
+package com.rmgstudios.hapori.helpers
 
-import android.content.Intent
-import android.media.Image
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.provider.ContactsContract
-import android.util.DisplayMetrics
 import android.util.Log
-import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.FirebaseDatabase
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.rmgstudios.hapori.fragments.HomeFragment
-import com.rmgstudios.hapori.helpers.FeedPost
-import com.rmgstudios.hapori.helpers.RecipeListData
+import com.rmgstudios.hapori.R
 
-class Test : AppCompatActivity() {
+class PostExpanded : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.post_expanded)
