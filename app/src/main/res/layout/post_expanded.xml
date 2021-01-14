@@ -72,7 +72,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/post_divider" />
+        app:layout_constraintTop_toBottomOf="@+id/comment_divider" />
 
     <EditText
         android:id="@+id/comment_input"

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
 import android.net.Uri
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -45,8 +46,8 @@ class FeedPostsAdapter(private var context: Context, posts: List<FeedData>) :
         holder.getCustomView().setUpFeedPost(posts[position].postTitle, posts[position].postBody)
         holder.getCustomView().setOnClickListener {
             val i = Intent(context, Test::class.java)
-            i.putExtra("POST_TITLE", holder.getCustomView().postTitleText)
-            i.putExtra("POST_BODY", holder.getCustomView().postBodyText)
+            i.putExtra("POST_TITLE", posts[position].postTitle)
+            i.putExtra("POST_BODY", posts[position].postBody)
             context.startActivity(i)
         }
     }
