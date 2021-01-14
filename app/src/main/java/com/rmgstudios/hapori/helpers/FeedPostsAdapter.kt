@@ -48,6 +48,7 @@ class FeedPostsAdapter(private var context: Context, posts: List<FeedData>) :
             val i = Intent(context, Test::class.java)
             i.putExtra("POST_TITLE", posts[position].postTitle)
             i.putExtra("POST_BODY", posts[position].postBody)
+            i.putExtra("POST_ID", posts[position].postID)
             context.startActivity(i)
         }
     }

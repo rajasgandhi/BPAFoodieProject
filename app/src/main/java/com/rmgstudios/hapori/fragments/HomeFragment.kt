@@ -160,11 +160,13 @@ class HomeFragment : Fragment() {
                 for (messageSnapshot in dataSnapshot.children) {
                     val postName = messageSnapshot.child("title").value as String
                     val postBody = messageSnapshot.child("body").value as String
+                    val postID = messageSnapshot.key!!
                     feedList.add(
                         0,
                         FeedData(
                             postName,
                             postBody,
+                            postID
                         )
                     )
                     val listAdapter =
