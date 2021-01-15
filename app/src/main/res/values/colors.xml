@@ -11,4 +11,5 @@
     <color name="color_primary_text">#282828</color>
     <color name="color_blue_text">#425af2</color>
     <color name="color_secondary_text">#939393</color>
+    <color name="color_post_background">#F6F7FB</color>
 </resources>
