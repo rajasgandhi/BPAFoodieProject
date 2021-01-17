@@ -6,7 +6,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.rmgstudios.hapori.helpers.RecipeListAdapter
+import com.rmgstudios.hapori.adapters.RecipeListAdapter
 import com.rmgstudios.hapori.helpers.RecipeListData
 import com.rmgstudios.hapori.helpers.ListItemDecoration
 

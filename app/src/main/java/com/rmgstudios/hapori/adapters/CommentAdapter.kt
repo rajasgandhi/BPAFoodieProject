@@ -1,29 +1,30 @@
-package com.rmgstudios.hapori.helpers
+package com.rmgstudios.hapori.adapters
 
 import android.content.Context
-import android.content.Intent
 import android.content.res.Resources
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.rmgstudios.hapori.helpers.CommentData
+import com.rmgstudios.hapori.helpers.PostComment
 import kotlin.collections.ArrayList
 
 
-class FeedPostsAdapter(private var context: Context, posts: List<FeedData>) :
-    RecyclerView.Adapter<FeedPostsAdapter.ViewHolder>() {
+class CommentAdapter(private var context: Context, comments: List<CommentData>) :
+    RecyclerView.Adapter<CommentAdapter.ViewHolder>() {
 
     // no Context reference needed—can get it from a ViewGroup parameter
-    private var posts = ArrayList<FeedData>(posts)
+    private var comments = ArrayList<CommentData>(comments)
 
     override fun getItemCount(): Int {
-        return posts.size
+        return comments.size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // no need for a LayoutInflater instance—
         // the custom view inflates itself
-        val itemView = FeedPost(parent.context)
+        val itemView = PostComment(parent.context)
 
         return ViewHolder(itemView)
     }
@@ -38,19 +39,12 @@ class FeedPostsAdapter(private var context: Context, posts: List<FeedData>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.getCustomView().setUpFeedPost(posts[position].postTitle, posts[position].postBody)
-        holder.getCustomView().setOnClickListener {
-            val i = Intent(context, PostExpanded::class.java)
-            i.putExtra("POST_TITLE", posts[position].postTitle)
-            i.putExtra("POST_BODY", posts[position].postBody)
-            i.putExtra("POST_ID", posts[position].postID)
-            context.startActivity(i)
-        }
+        holder.getCustomView().setUpComment(comments[position].commentBody)
     }
 
     inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-        private val customView: FeedPost = v as FeedPost
-        fun getCustomView(): FeedPost {
+        private val customView: PostComment = v as PostComment
+        fun getCustomView(): PostComment {
             return customView
         }
     }

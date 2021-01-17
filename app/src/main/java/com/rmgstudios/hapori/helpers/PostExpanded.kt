@@ -2,7 +2,6 @@ package com.rmgstudios.hapori.helpers
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
@@ -16,6 +15,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.rmgstudios.hapori.R
+import com.rmgstudios.hapori.adapters.CommentAdapter
 
 class PostExpanded : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

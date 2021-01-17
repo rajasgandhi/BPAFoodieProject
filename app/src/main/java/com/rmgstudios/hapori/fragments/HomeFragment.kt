@@ -23,9 +23,8 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.rmgstudios.hapori.R
 import com.rmgstudios.hapori.helpers.FeedData
-import com.rmgstudios.hapori.helpers.FeedPostsAdapter
+import com.rmgstudios.hapori.adapters.FeedPostsAdapter
 import okhttp3.*
-import org.json.JSONObject
 
 
 class HomeFragment : Fragment() {

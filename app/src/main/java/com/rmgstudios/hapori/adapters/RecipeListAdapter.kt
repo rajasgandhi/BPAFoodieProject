@@ -1,4 +1,4 @@
-package com.rmgstudios.hapori.helpers
+package com.rmgstudios.hapori.adapters
 
 import android.content.Context
 import android.content.Intent
@@ -8,9 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.rmgstudios.hapori.R
+import com.rmgstudios.hapori.helpers.RecipeListData
 import com.squareup.picasso.Picasso
 import okhttp3.*
 import org.json.JSONObject
