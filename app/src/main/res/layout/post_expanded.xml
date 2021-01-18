@@ -44,17 +44,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/post_toolbar" />
 
-
-    <com.rmgstudios.hapori.helpers.FeedPost
-        android:id="@+id/post_expanded1"
+    <TextView
+        android:id="@+id/post_title_comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="@dimen/fab_margin"
+        android:fontFamily="@font/poppins_bold"
+        android:text=""
+        android:textColor="@color/color_primary_text"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/post_divider"
-        app:postBodyText=""
-        app:postTitleText="" />
+        app:layout_constraintTop_toBottomOf="@+id/post_divider" />
+
+    <TextView
+        android:id="@+id/post_body_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/worksans_regular"
+        android:text=""
+        android:textColor="@color/color_primary_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/post_title_comment" />
 
     <View
         android:id="@+id/comment_divider"
@@ -64,7 +78,7 @@
         android:background="@color/color_secondary_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/post_expanded1" />
+        app:layout_constraintTop_toBottomOf="@+id/post_body_comment" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/feed_comments"

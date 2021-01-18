@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,12 +40,15 @@ class PostExpanded : AppCompatActivity() {
         val postID: String? =
             intent.extras?.getSerializable("POST_ID") as String?
 
-        val feedPost = findViewById<FeedPost>(R.id.post_expanded1)
+        val postTitleComment = findViewById<TextView>(R.id.post_title_comment)
+        val postBodyComment = findViewById<TextView>(R.id.post_body_comment)
         val sendComment = findViewById<ImageView>(R.id.send_comment)
         val commentInput = findViewById<EditText>(R.id.comment_input)
         val commentFeedListView = findViewById<RecyclerView>(R.id.feed_comments)
 
-        feedPost.setUpFeedPost(postTitle!!, postBody!!)
+        postTitleComment.text = postTitle
+        postBodyComment.text = postBody
+
         sendComment.setOnClickListener {
             val ref = FirebaseDatabase.getInstance().reference
             try {
@@ -69,7 +73,7 @@ class PostExpanded : AppCompatActivity() {
         val commentList = ArrayList<CommentData>()
         val listener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                commentList.clear()
+                //commentList.clear()
                 for (messageSnapshot in dataSnapshot.children) {
                     val comment = messageSnapshot.value as String
                     commentList.add(
