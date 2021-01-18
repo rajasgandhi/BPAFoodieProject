@@ -1,12 +1,14 @@
 package com.rmgstudios.hapori.helpers
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.view.ViewGroup
+import android.view.ViewTreeObserver
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.DataSnapshot
@@ -17,6 +19,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.rmgstudios.hapori.R
 import com.rmgstudios.hapori.adapters.CommentAdapter
+
 
 class PostExpanded : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +49,22 @@ class PostExpanded : AppCompatActivity() {
         val commentInput = findViewById<EditText>(R.id.comment_input)
         val commentFeedListView = findViewById<RecyclerView>(R.id.feed_comments)
 
+        val vto: ViewTreeObserver = commentInput.viewTreeObserver
+        if (vto.isAlive) {
+            vto.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    val viewWidth: Int = commentInput.measuredHeight
+                    Log.d("TAG", viewWidth.toString())
+                    // handle viewWidth here...
+                    commentInput.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                }
+            })
+        }
+
+        //Log.d("TAG", commentInput.measuredHeight.toString())
+
+        retrieveComments(postID!!, commentFeedListView)
+
         postTitleComment.text = postTitle
         postBodyComment.text = postBody
 
@@ -58,8 +77,7 @@ class PostExpanded : AppCompatActivity() {
                     commentDetails,
                     object : TypeToken<HashMap<String?, Any?>?>() {}.type
                 )
-                //ref.child("comments").push().setValue(commentInput.text.trimEnd().toString())
-                ref.child("comments/$postID").setValue(jsonMap)
+                ref.child("comments/$postID").push().setValue(jsonMap)
                 retrieveComments(postID!!, commentFeedListView)
                 commentInput.text.clear()
             } catch (e: Exception) {
@@ -73,26 +91,57 @@ class PostExpanded : AppCompatActivity() {
         val commentList = ArrayList<CommentData>()
         val listener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                //commentList.clear()
+                commentList.clear()
                 for (messageSnapshot in dataSnapshot.children) {
-                    val comment = messageSnapshot.value as String
-                    commentList.add(
-                        0,
-                        CommentData(
-                            comment
-                        )
-                    )
-                    val listAdapter = CommentAdapter(this@PostExpanded, commentList)
+                    ref.child(messageSnapshot.key!!).child("comment")
+                        .addValueEventListener(object : ValueEventListener {
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                try {
+                                    if (snapshot.value != null) {
+                                        val comment = snapshot.value.toString()
+                                        commentList.add(
+                                            0,
+                                            CommentData(comment)
+                                        )
+                                    } else {
+                                        Log.e("TAG", " it's null.")
+                                    }
+                                } catch (e: java.lang.Exception) {
+                                    e.printStackTrace()
+                                }
+                                val listAdapter = CommentAdapter(this@PostExpanded, commentList)
 
-                    feedComments.adapter = listAdapter
-                    feedComments.layoutManager = LinearLayoutManager(this@PostExpanded)
+
+
+                                feedComments.adapter = listAdapter
+
+                                val layoutParams = feedComments.layoutParams as ViewGroup.MarginLayoutParams
+                                layoutParams.bottomMargin = 146
+                                feedComments.layoutParams = layoutParams
+                                feedComments.requestLayout()
+                                feedComments.layoutManager = LinearLayoutManager(this@PostExpanded)
+                                ref.removeEventListener(this)
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {
+                                Log.e("TAG", error.message)
+                                Toast.makeText(
+                                    this@PostExpanded,
+                                    "Oops! An error occurred, please try again!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                ref.removeEventListener(this)
+                            }
+                        })
                 }
+                ref.removeEventListener(this)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
                 Toast.makeText(this@PostExpanded, "Error! Please try again.", Toast.LENGTH_SHORT)
                     .show()
                 println("loadPost:onCancelled ${databaseError.toException()}")
+                ref.removeEventListener(this)
             }
         }
         ref.addListenerForSingleValueEvent(listener)
