@@ -49,18 +49,6 @@ class PostExpanded : AppCompatActivity() {
         val commentInput = findViewById<EditText>(R.id.comment_input)
         val commentFeedListView = findViewById<RecyclerView>(R.id.feed_comments)
 
-        val vto: ViewTreeObserver = commentInput.viewTreeObserver
-        if (vto.isAlive) {
-            vto.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
-                override fun onGlobalLayout() {
-                    val viewWidth: Int = commentInput.measuredHeight
-                    Log.d("TAG", viewWidth.toString())
-                    // handle viewWidth here...
-                    commentInput.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                }
-            })
-        }
-
         //Log.d("TAG", commentInput.measuredHeight.toString())
 
         retrieveComments(postID!!, commentFeedListView)
@@ -111,13 +99,8 @@ class PostExpanded : AppCompatActivity() {
                                 }
                                 val listAdapter = CommentAdapter(this@PostExpanded, commentList)
 
-
-
                                 feedComments.adapter = listAdapter
 
-                                val layoutParams = feedComments.layoutParams as ViewGroup.MarginLayoutParams
-                                layoutParams.bottomMargin = 146
-                                feedComments.layoutParams = layoutParams
                                 feedComments.requestLayout()
                                 feedComments.layoutManager = LinearLayoutManager(this@PostExpanded)
                                 ref.removeEventListener(this)
