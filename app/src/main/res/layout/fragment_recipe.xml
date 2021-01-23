@@ -23,10 +23,10 @@
         android:id="@+id/ingredientInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
         android:fontFamily="@font/worksans_regular"
         android:hint="What do you have?"
         android:inputType="text"
-        android:layout_marginTop="60dp"
         android:textColorHint="@color/color_secondary_text"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -37,11 +37,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/worksans_regular"
-        android:text="Get Recipes"
+        android:text="Find Recipes"
         android:textAllCaps="false"
         android:textColor="@color/color_primary_text"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="64dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ingredientInput" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="32dp"
+        android:textColor="@color/color_primary_text"
+        android:fontFamily="@font/worksans_regular"
+        android:layout_marginTop="32dp"
+        android:text="Enter your ingredients above with commas separating each one. (e.g. apples, flour, salt)."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/getRecipesBtn" />
 </androidx.constraintlayout.widget.ConstraintLayout>
