@@ -1,5 +1,7 @@
 package com.rmgstudios.hapori.helpers
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -17,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.rmgstudios.hapori.MainActivity
 import com.rmgstudios.hapori.R
 import com.rmgstudios.hapori.adapters.CommentAdapter
 
@@ -29,11 +32,9 @@ class PostExpanded : AppCompatActivity() {
         val backArrow = findViewById<ImageView>(R.id.post_exit_arrow)
 
         backArrow.setOnClickListener {
-            if (supportFragmentManager.backStackEntryCount > 0) {
-                supportFragmentManager.popBackStack();
-            } else {
-                super.onBackPressed();
-            }
+            val i = Intent(this, MainActivity::class.java)
+            startActivity(i)
+            overridePendingTransition(R.anim.fadein, R.anim.fadeout)
         }
 
         val postTitle: String? =

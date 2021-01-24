@@ -74,6 +74,7 @@ class HomeFragment : Fragment() {
             val postBtn = postView.findViewById<Button>(R.id.post_button)
             if (postTitle.text.toString() == "" || postDescription.text.toString() == "") {
                 postBtn.alpha = 0.3f
+                postBtn.isEnabled = false
             }
 
             val displayMetrics = DisplayMetrics()
@@ -91,8 +92,10 @@ class HomeFragment : Fragment() {
             postTitle.setOnKeyListener(View.OnKeyListener { _, _, _ ->
                 if (postTitle.text.toString() == "" || postDescription.text.toString() == "") {
                     postBtn.alpha = 0.3f
+                    postBtn.isEnabled = false
                 } else {
                     postBtn.alpha = 1f
+                    postBtn.isEnabled = true
                 }
                 return@OnKeyListener false
             })
@@ -100,8 +103,10 @@ class HomeFragment : Fragment() {
             postDescription.setOnKeyListener(View.OnKeyListener { _, _, _ ->
                 if (postTitle.text.toString() == "" || postDescription.text.toString() == "") {
                     postBtn.alpha = 0.3f
+                    postBtn.isEnabled = false
                 } else {
                     postBtn.alpha = 1f
+                    postBtn.isEnabled = true
                 }
                 return@OnKeyListener false
             })

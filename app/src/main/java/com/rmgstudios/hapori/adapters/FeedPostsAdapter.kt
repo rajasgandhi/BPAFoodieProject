@@ -1,5 +1,6 @@
 package com.rmgstudios.hapori.adapters
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
@@ -7,6 +8,7 @@ import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.rmgstudios.hapori.R
 import com.rmgstudios.hapori.helpers.FeedData
 import com.rmgstudios.hapori.helpers.FeedPost
 import com.rmgstudios.hapori.helpers.PostExpanded
@@ -47,7 +49,8 @@ class FeedPostsAdapter(private var context: Context, posts: List<FeedData>) :
             i.putExtra("POST_TITLE", posts[position].postTitle)
             i.putExtra("POST_BODY", posts[position].postBody)
             i.putExtra("POST_ID", posts[position].postID)
-            context.startActivity(i)
+            holder.getCustomView().context.startActivity(i)
+            ((holder.getCustomView().context) as Activity).overridePendingTransition(R.anim.fadein, R.anim.fadeout)
         }
     }
 
