@@ -1,6 +1,8 @@
 package com.rmgstudios.hapori.fragments
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
@@ -24,16 +26,26 @@ import com.google.gson.reflect.TypeToken
 import com.rmgstudios.hapori.R
 import com.rmgstudios.hapori.helpers.FeedData
 import com.rmgstudios.hapori.adapters.FeedPostsAdapter
+import com.rmgstudios.hapori.helpers.PostExpanded
 import okhttp3.*
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), FeedPostsAdapter.OnItemClickListener {
     private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
     private lateinit var feedListView: RecyclerView
     private lateinit var addPostFab: FloatingActionButton
     private var feedList = ArrayList<FeedData>()
     fun HomeFragment() {
 
+    }
+
+    override fun onItemClicked(data: FeedData) {
+        val i = Intent(context, PostExpanded::class.java)
+        i.putExtra("POST_TITLE", data.postTitle)
+        i.putExtra("POST_BODY", data.postBody)
+        i.putExtra("POST_ID", data.postID)
+        startActivity(i)
+        requireActivity().overridePendingTransition(R.anim.fadein, R.anim.fadeout)
     }
 
     override fun onCreateView(
@@ -50,8 +62,7 @@ class HomeFragment : Fragment() {
         addPostFab = view.findViewById(R.id.addPostFab)
 
         mSwipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout)
-
-        feedListView.adapter = FeedPostsAdapter(requireActivity(), feedList)
+        feedListView.adapter = FeedPostsAdapter(requireActivity(), feedList, this)
         feedListView.layoutManager = LinearLayoutManager(requireActivity())
 
         retrieveFeed()
@@ -174,7 +185,7 @@ class HomeFragment : Fragment() {
                         )
                     )
                     val listAdapter =
-                        FeedPostsAdapter(requireActivity(), feedList)
+                        FeedPostsAdapter(requireActivity(), feedList, this@HomeFragment)
                     requireActivity().runOnUiThread {
                         feedListView.adapter = listAdapter
                         feedListView.layoutManager = LinearLayoutManager(requireActivity())

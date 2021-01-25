@@ -1,16 +1,11 @@
 package com.rmgstudios.hapori.helpers
 
-import android.app.Activity
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.ViewGroup
-import android.view.ViewTreeObserver
-import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.DataSnapshot
@@ -22,6 +17,7 @@ import com.google.gson.reflect.TypeToken
 import com.rmgstudios.hapori.MainActivity
 import com.rmgstudios.hapori.R
 import com.rmgstudios.hapori.adapters.CommentAdapter
+import com.rmgstudios.hapori.fragments.HomeFragment
 
 
 class PostExpanded : AppCompatActivity() {
@@ -32,6 +28,7 @@ class PostExpanded : AppCompatActivity() {
         val backArrow = findViewById<ImageView>(R.id.post_exit_arrow)
 
         backArrow.setOnClickListener {
+            finish()
             val i = Intent(this, MainActivity::class.java)
             startActivity(i)
             overridePendingTransition(R.anim.fadein, R.anim.fadeout)
@@ -49,8 +46,6 @@ class PostExpanded : AppCompatActivity() {
         val sendComment = findViewById<ImageView>(R.id.send_comment)
         val commentInput = findViewById<EditText>(R.id.comment_input)
         val commentFeedListView = findViewById<RecyclerView>(R.id.feed_comments)
-
-        //Log.d("TAG", commentInput.measuredHeight.toString())
 
         retrieveComments(postID!!, commentFeedListView)
 
