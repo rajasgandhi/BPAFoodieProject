@@ -54,7 +54,14 @@ class RecipeFragment : Fragment() {
 
                     override fun onResponse(call: Call, response: Response) {
                         response.use {
-                            if (!response.isSuccessful) throw IOException("Unexpected code $response")
+                            if (!response.isSuccessful) {
+                                Toast.makeText(
+                                    requireActivity(),
+                                    "Oops! An error occurred, please make sure you have vegetarian ingredients!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                throw IOException("Unexpected code $response")
+                            }
 
                             recipeList1.clear()
 
@@ -77,13 +84,14 @@ class RecipeFragment : Fragment() {
                                 requireActivity().runOnUiThread {
                                     Toast.makeText(
                                         requireActivity(),
-                                        "Please make sure you have vegetarian ingredients!",
+                                        "Oops! An error occurred, please make sure you have vegetarian ingredients!",
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 }
                             } else {
                                 requireActivity().runOnUiThread {
-                                    val intent = Intent(requireActivity(), RecipeResults::class.java)
+                                    val intent =
+                                        Intent(requireActivity(), RecipeResults::class.java)
                                     intent.putExtra("RECIPE_LIST", recipeList1)
                                     startActivity(intent)
                                 }
